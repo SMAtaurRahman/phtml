@@ -35,10 +35,10 @@ abstract class Accessor
         if (empty($this->dom->index->parent[$this->element->parentID])) {
             return false;
         }
-        
+
         $sibling = false;
         foreach ($this->dom->index->parent[$this->element->parentID] as $child) {
-            
+
             if ($sibling === false && $child !== $this->element->id) {
                 continue;
             } elseif ($child === $this->element->id) {
@@ -49,7 +49,7 @@ abstract class Accessor
                 break;
             }
         }
-        
+
         return is_int($sibling) ? $this->returnByID($sibling) : false;
     }
 
@@ -111,7 +111,7 @@ abstract class Accessor
     {
         return $this->getByThat('class', $selector);
     }
-    
+
     public function getByID(string $selector)
     {
         return $this->getByThat('id', $selector);
@@ -157,6 +157,26 @@ abstract class Accessor
         // tag > class > id
     }
 
+    public function hasClass($class)
+    {
+        return $this->hasThat('class', $class);
+    }
+
+    public function hasID($id)
+    {
+        return $this->hasThat('id', $id);
+    }
+
+    public function hasTag($tag)
+    {
+        return $this->hasThat('tag', $tag);
+    }
+
+    public function hasThat($type, $selector)
+    {
+        return isset($this->dom->index->property[$type][$selector]);
+    }
+
     protected function getByThat($type, $selector, $order = false, $sort = false, $offset = false, $limit = false)
     {
         if (empty($this->dom->index->property[$type][$selector])) {
@@ -178,10 +198,10 @@ abstract class Accessor
 
     protected function returnByID(int $elementID)
     {
-        if(is_int($elementID) === false){
+        if (is_int($elementID) === false) {
             return false;
         }
-        
+
         $newElement = clone $this->dom->elements[$elementID];
         $newElement->setID($elementID);
 
@@ -205,56 +225,6 @@ abstract class Accessor
 
         return true;
     }
-
-//    protected function newIndex(int $elementID)
-//    {
-//        $index = new Index();
-//        
-//        $this->childrens = [$elementID];
-//        $this->recursiveParentIndex($elementID, $this->dom->index->parent, $index->parent);
-//        //pr($this->dom->index);
-//        return;
-//        
-//        $this->recursivePropertyIndex($elementID, $this->dom->index->property, $index->property);
-//
-//        $this->childrens = [];
-//        return $index;
-//    }
-//    protected function recursiveParentIndex($parentID, $oldIndex, &$newIndex)
-//    {
-//        if (empty($oldIndex[$parentID])) {
-//            return false;
-//        }
-//
-//        foreach ($oldIndex[$parentID] as $child) {
-//
-//            $newIndex[$parentID][] = $child;
-//            $this->childrens[] = $child;
-//
-//            $this->recursiveParentIndex($child, $oldIndex, $newIndex);
-//        }
-//
-//        return true;
-//    }
-//    protected function recursivePropertyIndex($elementID, $oldIndex, &$newIndex)
-//    {
-//        if (empty($oldIndex)) {
-//            return false;
-//        }
-//
-//        $childrens = $this->childrens;
-//
-//        foreach ($oldIndex as $type => $property) {
-//            if (empty($property)) {
-//                continue;
-//            }
-//            $newIndex[$type] = array_map(function($elements) use($childrens) {
-//                return array_intersect($elements, $childrens);
-//            }, $property);
-//        }
-//
-//        return true;
-//    }
 
     public function getNonIndex($selector)
     {
