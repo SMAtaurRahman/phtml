@@ -174,7 +174,12 @@ abstract class Accessor
 
     public function hasThat($type, $selector)
     {
-        return isset($this->dom->index->property[$type][$selector]);
+        if (isset($this->dom->index->property[$type][$selector])) {
+
+            return !empty(array_intersect($this->dom->index->property[$type][$selector], $this->element->childrens ?? []));
+        }
+
+        return false;
     }
 
     protected function getByThat($type, $selector, $order = false, $sort = false, $offset = false, $limit = false)
