@@ -1,15 +1,36 @@
 {
     "name": "ataur/phtml",
-    "type": "library,",
+    "type": "library",
+    "license": "MIT",
     "authors": [
         {
-            "name": "Ataur Rahman",
-            "email": "dev.ataur.rahman@gmail.com"
+            "name": "S.M. Ataur Rahman",
+            "email": "dev.ataur.rahman@gmail.com",
+            "homepage": "https://ataur.net/"
         }
     ],
     "autoload": {
         "psr-4": {
             "PHTML\\": "src/"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PHTML\\Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "php": "^7.4"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^0.12.18",
+        "vimeo/psalm": "^3.11",
+        "phpunit/phpunit": "^9.1"
+    },
+    "scripts": {
+        "phpunit": "phpunit --verbose --colors=always"
+    },
+    "config": {
+        "sort-packages": true
     }
 }
